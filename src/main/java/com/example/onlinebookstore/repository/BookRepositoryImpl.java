@@ -3,53 +3,32 @@ package com.example.onlinebookstore.repository;
 import com.example.onlinebookstore.exception.DataProcessingException;
 import com.example.onlinebookstore.model.Book;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class BookRepositoryImpl implements BookRepository {
     private final SessionFactory sessionFactory;
 
-    @Autowired
-    public BookRepositoryImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
     @Override
     public Book save(Book book) {
-        Session session = null;
-        Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
-            transaction = session.getTransaction();
-            session.persist(book);
-            transaction.commit();
+            sessionFactory.inTransaction(session -> session.persist(book));
+            return book;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new DataProcessingException(
-                    "Can`t save book"
-                    + book.getTitle()
-                    + " to DB");
-        } finally {
-            if (session != null) {
-                session.close();
-            }
+            throw new DataProcessingException("Cannot save new book", e);
         }
-        return book;
     }
 
     @Override
     public List<Book> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            Query<Book> getAllBooksQuery = session.createQuery(
-                    "from Book", Book.class);
-            return getAllBooksQuery.getResultList();
+            return session.createQuery("from Book", Book.class).getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Cannot get all books", e);
         }
     }
 }

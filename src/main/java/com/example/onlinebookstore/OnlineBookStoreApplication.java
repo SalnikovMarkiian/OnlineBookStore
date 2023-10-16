@@ -1,6 +1,5 @@
 package com.example.onlinebookstore;
 
-import com.example.onlinebookstore.model.Book;
 import com.example.onlinebookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

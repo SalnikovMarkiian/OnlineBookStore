@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 public record CreateBookRequestDto(
         @NotBlank
         String title,
-        @NotNull
+        @NotBlank
         String author,
-        @NotNull
+        @NotBlank
         String isbn,
         @PositiveOrZero
         @NotNull

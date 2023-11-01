@@ -28,6 +28,7 @@ public class BookController {
 
     @GetMapping
     @Operation(summary = "Get all books", description = "Get a list of available books")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public List<BookDto> getAll(@PageableDefault(size = 20, sort = "id",
             direction = Sort.Direction.ASC) Pageable pageable) {
         return bookService.findAll(pageable);
@@ -35,6 +36,7 @@ public class BookController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get book by ID", description = "Get a book by ID")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public BookDto getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
@@ -48,12 +50,14 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete book", description = "Delete a book by ID")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delete(@PathVariable Long id) {
         bookService.deleteById(id);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update book", description = "Update a book by ID")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public BookDto update(
             @RequestBody @Valid CreateBookRequestDto bookRequestDto, @PathVariable Long id) {
         return bookService.update(bookRequestDto, id);

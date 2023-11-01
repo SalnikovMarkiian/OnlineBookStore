@@ -5,14 +5,12 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.function.Function;
-
+import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
@@ -35,15 +33,15 @@ public class JwtUtil {
     }
 
     public boolean isValidToken(String token) {
-       try {
-           Jws<Claims> claimsJws = Jwts.parser()
-                   .verifyWith(secret)
-                   .build()
-                   .parseSignedClaims(token);
-           return !claimsJws.getPayload().getExpiration().before(new Date());
-       } catch (JwtException | IllegalArgumentException e) {
-           throw new JwtException("Expired or invalid token. ", e);
-       }
+        try {
+            Jws<Claims> claimsJws = Jwts.parser()
+                    .verifyWith(secret)
+                    .build()
+                    .parseSignedClaims(token);
+            return !claimsJws.getPayload().getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new JwtException("Expired or invalid token. ", e);
+        }
     }
 
     public String getUsername(String token) {

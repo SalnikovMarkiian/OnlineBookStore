@@ -38,7 +38,7 @@ public class JwtUtil {
                     .verifyWith(secret)
                     .build()
                     .parseSignedClaims(token);
-            return !claimsJws.getPayload().getExpiration().before(new Date());
+            return !getExpiration(token).before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
             throw new JwtException("Expired or invalid token. ", e);
         }
@@ -46,6 +46,10 @@ public class JwtUtil {
 
     public String getUsername(String token) {
         return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    public Date getExpiration(String token) {
+        return getClaimFromToken(token, Claims::getExpiration);
     }
 
     private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {

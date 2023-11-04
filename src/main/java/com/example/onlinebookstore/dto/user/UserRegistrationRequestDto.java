@@ -1,9 +1,15 @@
 package com.example.onlinebookstore.dto.user;
 
+import com.example.onlinebookstore.validate.FieldsMatching;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+@FieldsMatching(
+        field = "password",
+        fieldMatchWith = "verifyPassword",
+        message = "Passwords do not match!"
+)
 public record UserRegistrationRequestDto(
         @NotBlank @Email
         String email,

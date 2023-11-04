@@ -16,8 +16,6 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public UserLoginResponseDto authenticate(UserLoginRequestDto request) {
-        System.out.println(request.email());
-        System.out.println(request.password());
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.email(), request.password())
         );

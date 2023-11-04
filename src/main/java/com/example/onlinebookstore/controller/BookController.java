@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
+@Validated
 @RestController
 @RequestMapping("api/books")
 public class BookController {
@@ -29,7 +31,7 @@ public class BookController {
     @GetMapping
     @Operation(summary = "Get all books", description = "Get a list of available books")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<BookDto> getAll(@PageableDefault(size = 20, sort = "id",
+    public List<BookDto> getAll(@PageableDefault(size = 20, sort = "title",
             direction = Sort.Direction.ASC) Pageable pageable) {
         return bookService.findAll(pageable);
     }

@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findByEmail(request.email()).isPresent()) {
             throw new RegistrationException("Unable to complete registration");
         }
-        //Role byName = roleRepository.getRoleByName(RoleName.ROLE_USER);
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setRoles(getDefaultRoles());

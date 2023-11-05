@@ -4,8 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.BeanWrapperImpl;
 
-public class FieldsMatchingValidator
-        implements ConstraintValidator<FieldsMatching, Object> {
+public class FieldsMatchingValidator implements ConstraintValidator<FieldsMatching, Object> {
     private String field;
     private String fieldMatchWith;
 
@@ -16,8 +15,7 @@ public class FieldsMatchingValidator
     }
 
     @Override
-    public boolean isValid(
-            Object object, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
         Object fieldValue = new BeanWrapperImpl(object)
                 .getPropertyValue(field);
         Object fieldMatchValue = new BeanWrapperImpl(object)

@@ -5,6 +5,7 @@ import com.example.onlinebookstore.dto.book.CreateBookRequestDto;
 import com.example.onlinebookstore.service.book.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,7 @@ public class BookController {
 
     @GetMapping
     @Operation(summary = "Get all books", description = "Get a list of available books")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     public List<BookDto> getAll(@PageableDefault(size = 20, sort = "title",
             direction = Sort.Direction.ASC) Pageable pageable) {
         return bookService.findAll(pageable);
@@ -38,30 +39,31 @@ public class BookController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get book by ID", description = "Get a book by ID")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public BookDto getBookById(@PathVariable Long id) {
+    @PreAuthorize("hasRole('USER')")
+    public BookDto getBookById(@PathVariable @Positive Long id) {
         return bookService.getBookById(id);
     }
 
     @PostMapping
     @Operation(summary = "Create book", description = "Create a new book")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete book", description = "Delete a book by ID")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void delete(@PathVariable Long id) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public void delete(@PathVariable @Positive Long id) {
         bookService.deleteById(id);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update book", description = "Update a book by ID")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public BookDto update(
-            @RequestBody @Valid CreateBookRequestDto bookRequestDto, @PathVariable Long id) {
+            @RequestBody @Valid CreateBookRequestDto bookRequestDto,
+            @PathVariable @Positive Long id) {
         return bookService.update(bookRequestDto, id);
     }
 }

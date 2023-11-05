@@ -5,12 +5,9 @@ import com.example.onlinebookstore.dto.user.UserResponseDto;
 import com.example.onlinebookstore.exception.RegistrationException;
 import com.example.onlinebookstore.mapper.UserMapper;
 import com.example.onlinebookstore.model.Role;
-import com.example.onlinebookstore.model.RoleName;
 import com.example.onlinebookstore.model.User;
 import com.example.onlinebookstore.repository.RoleRepository;
 import com.example.onlinebookstore.repository.UserRepository;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,8 +35,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private Set<Role> getDefaultRoles() {
-        return new HashSet<>(Collections.singletonList(
-                roleRepository.getRoleByName(RoleName.ROLE_USER)
-        ));
+        return Set.of(
+                roleRepository.getRoleByName(Role.RoleName.ROLE_USER)
+        );
     }
 }

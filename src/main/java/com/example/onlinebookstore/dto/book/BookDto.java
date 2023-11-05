@@ -1,14 +1,18 @@
 package com.example.onlinebookstore.dto.book;
 
+import lombok.Data;
 import java.math.BigDecimal;
+import java.util.List;
 
-public record BookDto(
-        Long id,
-        String title,
-        String author,
-        String isbn,
-        BigDecimal price,
-        String description,
-        String coverImage
-) {
+
+@Data
+public class BookDto {
+    private Long id;
+    private String title;
+    private String author;
+    private String isbn;
+    private BigDecimal price;
+    private String description;
+    private String coverImage;
+    private List<Long> categoryIds;
 }

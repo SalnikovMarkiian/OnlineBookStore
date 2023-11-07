@@ -19,7 +19,17 @@ public record UserRegistrationRequestDto(
         String lastName,
         @NotBlank @Size(max = 128)
         String shippingAddress,
-        @NotBlank @Size(min = 4, max = 32)
+        @NotBlank @Size(
+                min = 4,
+                max = 32,
+                message = "password must contain from 2 to 32 characters"
+        )
         String password,
+
+        @Size(
+                min = 4,
+                max = 32,
+                message = "password must contain from 2 to 32 characters"
+        )
         String verifyPassword) {
 }

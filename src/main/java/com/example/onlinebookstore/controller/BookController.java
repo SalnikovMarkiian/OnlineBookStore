@@ -1,15 +1,18 @@
 package com.example.onlinebookstore.controller;
 
-import com.example.onlinebookstore.dto.BookDto;
-import com.example.onlinebookstore.dto.CreateBookRequestDto;
-import com.example.onlinebookstore.service.BookService;
+import com.example.onlinebookstore.dto.book.BookDto;
+import com.example.onlinebookstore.dto.book.CreateBookRequestDto;
+import com.example.onlinebookstore.service.book.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
+@Validated
 @RestController
 @RequestMapping("api/books")
 public class BookController {
@@ -27,33 +31,39 @@ public class BookController {
 
     @GetMapping
     @Operation(summary = "Get all books", description = "Get a list of available books")
-    public List<BookDto> getAll(@PageableDefault(size = 20, sort = "id",
+    @PreAuthorize("hasRole('USER')")
+    public List<BookDto> getAll(@PageableDefault(size = 20, sort = "title",
             direction = Sort.Direction.ASC) Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get book by ID", description = "Get a book by ID")
-    public BookDto getBookById(@PathVariable Long id) {
+    @PreAuthorize("hasRole('USER')")
+    public BookDto getBookById(@PathVariable @Positive Long id) {
         return bookService.getBookById(id);
     }
 
     @PostMapping
     @Operation(summary = "Create book", description = "Create a new book")
+    @PreAuthorize("hasRole('ADMIN')")
     public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete book", description = "Delete a book by ID")
-    public void delete(@PathVariable Long id) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public void delete(@PathVariable @Positive Long id) {
         bookService.deleteById(id);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update book", description = "Update a book by ID")
+    @PreAuthorize("hasRole('ADMIN')")
     public BookDto update(
-            @RequestBody @Valid CreateBookRequestDto bookRequestDto, @PathVariable Long id) {
+            @RequestBody @Valid CreateBookRequestDto bookRequestDto,
+            @PathVariable @Positive Long id) {
         return bookService.update(bookRequestDto, id);
     }
 }

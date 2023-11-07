@@ -1,11 +1,16 @@
 package com.example.onlinebookstore.mapper;
 
 import com.example.onlinebookstore.dto.book.BookDto;
-import com.example.onlinebookstore.dto.book.BookDtoWithoutCategories;
+import com.example.onlinebookstore.dto.book.BookDtoWithoutCategoryIds;
 import com.example.onlinebookstore.dto.book.CreateBookRequestDto;
 import com.example.onlinebookstore.model.Book;
 import com.example.onlinebookstore.model.Category;
-import org.mapstruct.*;
+import java.util.stream.Collectors;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.InjectionStrategy;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValueCheckStrategy;
 
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
@@ -17,7 +22,7 @@ public interface BookMapper {
 
     Book toBook(CreateBookRequestDto requestDto);
 
-    BookDtoWithoutCategories toDtoWithoutCategories(Book book);
+    BookDtoWithoutCategoryIds toDtoWithoutCategories(Book book);
 
     void updateBook(CreateBookRequestDto dto, @MappingTarget Book book);
 
@@ -28,5 +33,12 @@ public interface BookMapper {
                 .map(Category::getId)
                 .toList()
         );
+    }
+
+    @AfterMapping
+    default void setCategories(@MappingTarget Book book, CreateBookRequestDto bookDto) {
+        book.setCategories(bookDto.categoryIds().stream()
+                .map(Category::new)
+                .collect(Collectors.toSet()));
     }
 }

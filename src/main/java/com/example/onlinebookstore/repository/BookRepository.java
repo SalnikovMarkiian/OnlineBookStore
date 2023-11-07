@@ -1,12 +1,14 @@
 package com.example.onlinebookstore.repository;
 
 import com.example.onlinebookstore.model.Book;
+import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    List<Book> findAllByCategoryId(Long categoryId);
+    @EntityGraph(attributePaths = "categories")
+    List<Book> findAllByCategoriesId(Long categoryId, Pageable pageable);
 }

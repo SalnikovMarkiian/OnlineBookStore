@@ -2,7 +2,7 @@ package com.example.onlinebookstore.dto.book;
 
 import java.math.BigDecimal;
 
-public record BookDtoWithoutCategories(
+public record BookDtoWithoutCategoryIds(
         Long id,
         String title,
         String author,

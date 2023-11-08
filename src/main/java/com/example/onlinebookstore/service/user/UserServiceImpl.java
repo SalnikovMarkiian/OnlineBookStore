@@ -5,6 +5,7 @@ import com.example.onlinebookstore.dto.user.UserResponseDto;
 import com.example.onlinebookstore.exception.RegistrationException;
 import com.example.onlinebookstore.mapper.UserMapper;
 import com.example.onlinebookstore.model.Role;
+import com.example.onlinebookstore.model.ShoppingCart;
 import com.example.onlinebookstore.model.User;
 import com.example.onlinebookstore.repository.RoleRepository;
 import com.example.onlinebookstore.repository.UserRepository;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.password()));
+        setShoppingCartForUser(user);
         user.setRoles(getDefaultRoles());
 
         return userMapper.toDto(userRepository.save(user));
@@ -38,5 +40,11 @@ public class UserServiceImpl implements UserService {
         return Set.of(
                 roleRepository.getRoleByName(Role.RoleName.ROLE_USER)
         );
+    }
+
+    private void setShoppingCartForUser(User user) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        user.setShoppingCart(shoppingCart);
     }
 }

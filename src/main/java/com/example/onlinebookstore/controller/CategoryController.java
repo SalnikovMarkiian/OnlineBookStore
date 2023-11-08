@@ -39,7 +39,6 @@ public class CategoryController {
     @Operation(summary = "Get all categories",
             description = "Get a list of available categories")
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('USER')")
     public List<CategoryDto> getAll(@PageableDefault(size = 20, sort = "name",
             direction = Sort.Direction.ASC) Pageable pageable) {
@@ -56,7 +55,6 @@ public class CategoryController {
 
     @Operation(summary = "Get category by id",
             description = "Get a category by ID")
-    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public CategoryDto getCategoryById(@PathVariable @Positive Long id) {
@@ -65,7 +63,6 @@ public class CategoryController {
 
     @Operation(summary = "Update category by id",
             description = "Update a category by ID")
-    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public CategoryDto update(
@@ -85,7 +82,6 @@ public class CategoryController {
 
     @Operation(summary = "Get book by category id",
             description = "Receive a list of books by category id")
-    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}/books")
     public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(

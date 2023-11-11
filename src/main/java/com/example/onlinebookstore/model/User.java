@@ -65,8 +65,7 @@ public class User implements UserDetails {
             mappedBy = "user",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            optional = false
+            orphanRemoval = true
     )
     private ShoppingCart shoppingCart;
 

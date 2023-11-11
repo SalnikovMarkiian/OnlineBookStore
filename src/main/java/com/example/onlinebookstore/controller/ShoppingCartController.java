@@ -5,6 +5,7 @@ import com.example.onlinebookstore.dto.shopping.cart.CartItemUpdateRequestDto;
 import com.example.onlinebookstore.dto.shopping.cart.ShoppingCartDto;
 import com.example.onlinebookstore.model.User;
 import com.example.onlinebookstore.service.shopping.cart.ShoppingCartService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class ShoppingCartController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ShoppingCartDto addBookToCart(Authentication authentication,
-                                         @RequestBody CreateCartItemRequestDto requestDto) {
+             @RequestBody @Valid CreateCartItemRequestDto requestDto) {
         User user = (User) authentication.getPrincipal();
         return shoppingCartService.addToCart(user.getId(), requestDto);
     }
@@ -47,14 +48,13 @@ public class ShoppingCartController {
     @PutMapping(("/cart-items/{id}"))
     @PreAuthorize("hasRole('USER')")
     public ShoppingCartDto updateCartItem(Authentication authentication,
-                                          @PathVariable @Positive Long id,
-                                          @RequestBody CartItemUpdateRequestDto quantityRequest) {
+              @PathVariable @Positive Long id,
+              @RequestBody @Valid CartItemUpdateRequestDto quantityRequest) {
         User user = (User) authentication.getPrincipal();
         return shoppingCartService.update(user.getId(), id, quantityRequest);
     }
 
     @PreAuthorize("hasRole('USER')")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(("/cart-items/{id}"))
     public ShoppingCartDto deleteCartItem(Authentication authentication, @PathVariable Long id) {
         User user = (User) authentication.getPrincipal();

@@ -8,7 +8,9 @@ import com.example.onlinebookstore.mapper.BookMapper;
 import com.example.onlinebookstore.model.Book;
 import com.example.onlinebookstore.repository.BookRepository;
 import com.example.onlinebookstore.repository.CategoryRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,11 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
     private final CategoryRepository categoryRepository;
 
+    @Transactional
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
         Book book = bookMapper.toBook(requestDto);
+        addBookCategories(requestDto.categoryIds(), book);
         return bookMapper.toDto(bookRepository.save(book));
     }
 
@@ -48,11 +52,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public BookDto update(CreateBookRequestDto bookRequestDto, Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can`t find book by id " + id)
         );
         bookMapper.updateBook(bookRequestDto, book);
+        addBookCategories(bookRequestDto.categoryIds(), book);
         return bookMapper.toDto(bookRepository.save(book));
     }
 
@@ -65,5 +71,11 @@ public class BookServiceImpl implements BookService {
                 .stream()
                 .map(bookMapper::toDtoWithoutCategories)
                 .toList();
+    }
+
+    private void addBookCategories(List<Long> categoryIds, Book book) {
+        book.setCategories(categoryIds.stream()
+                .map(categoryRepository::getReferenceById)
+                .collect(Collectors.toSet()));
     }
 }

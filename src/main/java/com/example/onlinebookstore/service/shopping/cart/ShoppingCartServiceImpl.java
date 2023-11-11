@@ -28,7 +28,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemRepository cartItemRepository;
 
     @Override
-    @Transactional
     public ShoppingCartDto findById(Long id) {
         return shoppingCartMapper.toDto(shoppingCartRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(
@@ -54,11 +53,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         Book book = bookRepository.findById(requestDto.bookId()).orElseThrow(
                 () -> new EntityNotFoundException("Cannot find book")
         );
-        CartItem cartItem = new CartItem();
-        cartItem.setBook(book);
-        cartItem.setShoppingCart(shoppingCart);
-        cartItem.setQuantity(requestDto.quantity());
-        shoppingCart.getCartItems().add(cartItem);
+        CartItem cartItem = cartItemRepository.findByShoppingCartIdAndBookId(
+                shoppingCart.getId(), book.getId()
+        ).orElseGet(() -> createCartItem(shoppingCart, book, requestDto));
+        if (cartItem.getId() != null) {
+            cartItem.setQuantity(cartItem.getQuantity() + requestDto.quantity());
+        }
         cartItemRepository.save(cartItem);
         return shoppingCartMapper.toDto(shoppingCart);
     }
@@ -97,5 +97,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItemRepository.delete(cartItem);
         shoppingCart.removeCartItem(cartItem);
         return shoppingCartMapper.toDto(shoppingCart);
+    }
+
+    private CartItem createCartItem(ShoppingCart cart, Book book,
+                                    CreateCartItemRequestDto requestDto) {
+        CartItem cartItem = new CartItem();
+        cartItem.setBook(book);
+        cartItem.setShoppingCart(cart);
+        cartItem.setQuantity(requestDto.quantity());
+        cart.getCartItems().add(cartItem);
+        return cartItem;
     }
 }

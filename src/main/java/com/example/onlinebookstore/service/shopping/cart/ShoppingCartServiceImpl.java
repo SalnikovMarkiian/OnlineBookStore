@@ -14,7 +14,6 @@ import com.example.onlinebookstore.repository.CartItemRepository;
 import com.example.onlinebookstore.repository.ShoppingCartRepository;
 import com.example.onlinebookstore.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +29,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCartDto findById(Long id) {
         return shoppingCartMapper.toDto(shoppingCartRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new EntityNotFoundException(
                         "Cannot find shoppingCart by id " + id)
                 )
         );
@@ -46,7 +45,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .orElseGet(() -> {
                     ShoppingCart shoppingCartNew = new ShoppingCart();
                     shoppingCartNew.setUser(user);
-                    shoppingCartNew.setCartItems(new HashSet<>());
                     return shoppingCartRepository.save(shoppingCartNew);
                 }
         );

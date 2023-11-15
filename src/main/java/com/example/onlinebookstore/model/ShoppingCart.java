@@ -45,4 +45,13 @@ public class ShoppingCart {
         cartItems.remove(cartItem);
         cartItem.setShoppingCart(null);
     }
+
+    public void clear() {
+        cartItems.forEach(i -> i.setShoppingCart(null));
+        cartItems.clear();
+    }
+
+    public int size() {
+        return cartItems.size();
+    }
 }

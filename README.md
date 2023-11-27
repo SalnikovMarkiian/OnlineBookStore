@@ -167,7 +167,7 @@ and new implementations would easily expand the functionality!
 
 2. **Clone this repository:**
    ```bash
-   git clone https://github.com/mmosii/online-book-store.git
+   git clone https://github.com/SalnikovMarkiian/OnlineBookStore
    cd online-book-store
 
 3. **Create a .env file in the root of the project.

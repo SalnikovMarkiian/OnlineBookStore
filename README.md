@@ -2,16 +2,19 @@
 
 ---
 
-If you have always dreamed of being the owner of the most 
-atmospheric business - a bookstore, or you already are, 
-but you need to automate all processes and expand on the Internet?
+This project was designed to automate routine tasks in a bookstore. 
+All necessary business logic was implemented using the technology stack described below.
 
-`Welcome to the Book Store project! ` 
+In this case, the ability to **view lists of all books**, **view information about the selected book**, 
+**add products to the cart and place an order** is implemented. Also, users can manage their shopping
+cart according to their needs. \
+In addition, functionality for administrators/managers was implemented. That is, a person with appropriate
+rights can create new categories, books, and update them. Get information about any user's order and change
+their statuses. \
+Also, Spring Boot Security was used in the project, which made it possible to implement the possibility 
+of registration, login and access to data by roles using a jwt token.
 
-It is here that all the main **functions** and **opportunities** 
-to **_successfully achieve the goal_** are developed! \
-The project is designed in such a way that any of your wishes 
-and new implementations would easily expand the functionality!
+##### You can read more about the project and functionality below.
 
 ---
 
@@ -20,13 +23,13 @@ and new implementations would easily expand the functionality!
 ## in this project we used the following technologies:
 
 <details>
-  <summary><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZqRFNAis0vxGXeQDFA2thujnilvYO8eqTKDX5QgJ5APGtLTNQu0-d6rTkb8oSWOdyRyY&usqp=CAU" width="30"/> Java</summary>
+  <summary><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZqRFNAis0vxGXeQDFA2thujnilvYO8eqTKDX5QgJ5APGtLTNQu0-d6rTkb8oSWOdyRyY&usqp=CAU" width="30"/> Java  </summary>
 
-`In this project, we used Java as the main programming language.`
+`In this project, we used Java version 17 as the main programming language.`
 </details>
 
 <details>
-  <summary><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwsq-7f5BWyog4cdeT1sQaYLVzhJ0o37Up8TjHvVU08WUgfyyMMRMHTVwJ5XReSjyhZa0&usqp=CAU" width="30"/> Spring Boot</summary>
+  <summary><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwsq-7f5BWyog4cdeT1sQaYLVzhJ0o37Up8TjHvVU08WUgfyyMMRMHTVwJ5XReSjyhZa0&usqp=CAU" width="30" /> Spring Boot</summary>
 
 `A powerful framework for building Java-based applications.`
 </details>
@@ -60,24 +63,6 @@ and new implementations would easily expand the functionality!
 ` * bookings; ` \
 ` * payments. `
 
-</details>
-
-<details>
-  <summary><img src="https://repository-images.githubusercontent.com/444861690/5f8b5fb8-fb79-447b-8e52-2ecd52743e41" width="30"/> Telegram API</summary>
-
-` Used to send notifications to administrators via Telegram. `
-</details>
-
-<details>
-  <summary><img src="https://cdn-icons-png.flaticon.com/512/5968/5968312.png" width="30"/> Stripe API</summary>
-
-`Integrated with Stripe for secure payment processing.`
-</details>
-
-<details>
-  <summary><img src="https://philiaweb.com/uploads/image/google-maps.png" width="30"/> Google Maps API</summary>
-
-`Used to display the location of accommodation.`
 </details>
 
 <details>
@@ -167,7 +152,7 @@ and new implementations would easily expand the functionality!
 
 2. **Clone this repository:**
    ```bash
-   git clone https://github.com/SalnikovMarkiian/OnlineBookStore
+   git clone "repo link"
    cd online-book-store
 
 3. **Create a .env file in the root of the project.
@@ -180,11 +165,17 @@ and new implementations would easily expand the functionality!
    ```bash
    docker-compose build && docker-compose up
 
-The application should be running locally at http://localhost:8080.
 6. **Test with Swagger:
    Open http://localhost:8080/swagger-ui/index.html in your browser.**
 
+---
+
+######   The application should be running locally at http://localhost:8080.
+
+---
+
+
 ## For additional information or inquiries, please contact:
-- Email: salnikov.markiyan@gmail.com
-- Telegram: https://t.me/resp1dK
-- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/markiyan-salnikov/)
+- [salnikov.markiyan@gmail.com](mailto:salnikov.markiyan@gmail.com)
+- [Telegram](https://t.me/resp1dK)
+- [LinkedIn](https://www.linkedin.com/in/markiyan-salnikov/)

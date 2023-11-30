@@ -145,6 +145,45 @@ of registration, login and access to data by roles using a jwt token.
 
 ---
 
+## Description of roles
+
+### In this project, users can be unauthenticated, and authorized with the following roles: **USER** and **ADMIN**
+
+#### Unauthenticated:
+Unauthenticated users can _register_ in the database using the register endpoint,
+and authenticate using _login_.
+
+#### USER:
+`The USER role has the following capabilities:`
+
+* Get a list of all categories;
+* Get a description of the category by its Id;
+* Get a list of all books by the selected category;
+* Get a list of all books;
+* Get information about the selected book by id;
+* Get information about the status and contents of the shopping cart at the moment;
+* Add the selected book with the selected quantity to the shopping cart (if such quantity is available, otherwise - the user will be warned);
+* Update the number of the selected book;
+* Remove the item from the cart completely;
+* Create an order based on the shopping cart;
+* Get a list of all orders with a description. The list will include all orders of the current user only;
+* Get information about your own order by specific id;
+* Get an item by a specific id from an order with a specific id.
+
+#### ADMIN
+`The "ADMIN" role includes all functions available to the user, 
+and additionally, has the following advanced capabilities:`
+
+* Create new categories and their description;
+* Update information about the selected category;
+* Delete the entire category by id;
+* Create a new book, assign it to certain categories;
+* Update information about the book (including the amount in stock);
+* Delete a book by id;
+* Change the status of a specific order (_NEW, CANCELED, PREPARING, PENDING, ON_THE_WAY, DELIVERED, COMPLETED_).
+
+---
+
 ## Quick Start
 
 1. **Install Docker:**
